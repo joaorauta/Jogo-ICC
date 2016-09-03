@@ -13,20 +13,22 @@ class Lutador():
 	vy = 0
 	angle = 60
 	time = 0
-
-	images = {}
 	
-	images['right'] = Image(Point(x, y), "images/editado.png")
-	images['idle'] = Image(Point(x, y), "images/editado.png")
-	images['up'] = Image(Point(x,y), "images/balrog pulando.png")
-	images['down'] = Image(Point(x, y), "images/balrog agachado.png")
-	image = images['right']
 
 	def __init__(self, hp, mp, x, y):
 		self.hp = hp
 		self.mp = mp
 		self.x = x
 		self.y = y
+		
+		self.images = {}
+
+		self.images['right'] = "images/editado.png"
+		self.images['idle'] = "images/editado.png"
+		self.images['up'] = "images/balrog pulando.png"
+		self.images['down'] = "images/balrog agachado.png"
+		
+		self.image = self.images['right']
 		
 	def getX(self):
 		return self.x
@@ -35,7 +37,7 @@ class Lutador():
 		return self.y
     
 	def getImage(self):
-		return self.images['right']
+		return self.image
 		
 	def setX(self, x):
 		self.x = x
@@ -46,14 +48,18 @@ class Lutador():
 	def walk_right(self):
 		self.vx = 10
 		self.image = self.images['right']
+		
      
 	def walk_left(self):
 		self.vx = -10
+		self.image = self.images['down']
         
 	def move(self):
 		self.x = self.x + self.vx
 		self.y = self.y + self.vy
-    
+		self.vx = 0
+		self.vy = 0
+
 	def jump(self, curr_time):
 		self.vx = 10
 		self.image = self.images['up']
