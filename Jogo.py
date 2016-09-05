@@ -41,8 +41,9 @@ class Jogo():
 		
 
 	def redraw(self):
-		update()
-
+		self.imgLutador.undraw()
+		self.imgLutador = Image(Point(self.lutador.getX(), self.lutador.getY()), self.lutador.getImage())
+		self.imgLutador.draw(self.win)
 
 	def stop(self):
 		self.state = False

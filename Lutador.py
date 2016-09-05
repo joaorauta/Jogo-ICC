@@ -45,6 +45,9 @@ class Lutador():
 	def setY(self, y):
 		self.y = y    
         
+	def idle(self):
+		self.image = self.images['up']
+
 	def walk_right(self):
 		self.vx = 10
 		self.image = self.images['right']
