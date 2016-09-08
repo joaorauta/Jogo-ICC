@@ -16,16 +16,28 @@ class Lutador():
 		self.g = -9.8
 
 		self.images = {}
-		self.images['idle'] = "images/" + name + "/idle.png"
-		self.images['right'] = "images/" + name + "/idle.png"
-		self.images['left'] = "images/" + name + "/idle.png"
-		self.images['up'] = "images/" + name + "/idle.png"
-		self.images['down'] = "images/" + name + "/idle.png"
+		self.images['idle'] = "images/" + name + "/idle1.png"
+		self.images['right'] = "images/" + name + "/idle1.png"
+		self.images['left'] = "images/" + name + "/idle1.png"
+		self.images['up'] = "images/" + name + "/idle1.png"
+		self.images['down'] = "images/" + name + "/idle1.png"
+
 		self.images['punch1'] = "images/" + name + "/punch1.png"
 		self.images['punch2'] = "images/" + name + "/punch2.png"
 		self.images['punch3'] = "images/" + name + "/punch3.png"
 
-		self.image = self.images['idle']
+		self.images['idle1'] = "images/" + name + "/idle1.png"
+		self.images['idle2'] = "images/" + name + "/idle2.png"
+		self.images['idle3'] = "images/" + name + "/idle3.png"
+		self.images['idle4'] = "images/" + name + "/idle4.png"
+
+		self.images['walk1'] = "images/" + name + "/walk1.png"
+		self.images['walk2'] = "images/" + name + "/walk2.png"
+		self.images['walk3'] = "images/" + name + "/walk3.png"
+		self.images['walk4'] = "images/" + name + "/walk4.png"
+		self.images['walk5'] = "images/" + name + "/walk5.png"
+
+		self.image = self.images['idle1']
 
 		self.start_time = 0
 		self.jump_time = 0
@@ -33,6 +45,7 @@ class Lutador():
 		self.jumping = False
 		self.punching = False
 		self.moving = False
+		self.walking = False
 		
 		hitbox_p1X = (self.getX() - 40)
 		hitbox_p1Y = (self.getY() + 100)
@@ -68,22 +81,27 @@ class Lutador():
 		self.y = y    
         
 	def idle(self):
-		self.image = self.images['idle']
+		self.image = self.images['idle1']
 
 	def walk_right(self):
 		if(not self.isPunching()):
 			self.dx = 10
-			self.image = self.images['right']     		
-			#self.moving = True
+			if("walk" not in self.image):
+				self.image = self.images['walk1']
+			self.walking = True
 
 	def walk_left(self):
 		if(not self.isPunching()):
 			self.dx = -10
-			self.image = self.images['left']
-	        #self.moving = True
+			if("walk" not in self.image):
+				self.image = self.images['walk1']
+			self.walking = True
 
 	def move(self):
-		self.x = self.x + self.dx
+		distX = self.x + self.dx
+		distY = self.y + self.dy
+		if(distX >= 0  and distX <= 750):
+			self.x = distX
 		self.y = self.y + self.dy
 		self.dx = 0
 		self.moving = False
@@ -94,28 +112,51 @@ class Lutador():
 		
 
 	def punch(self):
-		if(not self.isMoving()):
-			self.punching = True
+		self.walking = False
+		self.punching = True
+		self.image = self.images['punch1']
 
 	def animate(self, image):
 		if(self.punching):
-			if(image == self.images['idle']):
-				self.image = self.images['punch1']
-
 			if(image == self.images['punch1']):
-				print self.image
-			
 				self.image = self.images['punch2']
 				
-
 			if(image == self.images['punch2']):
-				print self.image
-				
 				self.image = self.images['punch3']
-				
 
 			if(image == self.images['punch3']):
-				print self.image
-				
-				self.image = self.images['idle']
+				self.image = self.images['idle1']
 				self.punching = False
+
+		if(self.walking):
+			if(image == self.images['idle1']):
+				self.image = self.images['walk1']
+
+			if(image == self.images['walk1']):
+				self.image = self.images['walk2']
+
+			if(image == self.images['walk2']):
+				self.image = self.images['walk3']
+
+			if(image == self.images['walk3']):
+				self.image = self.images['walk4']
+
+			if(image == self.images['walk4']):
+				self.image = self.images['walk5']
+
+			if(image == self.images['walk5']):
+				self.image = self.images['idle1']
+				self.walking = False
+		
+		else:
+			if(image == self.images['idle1']):
+				self.image = self.images['idle2']
+
+			if(image == self.images['idle2']):
+				self.image = self.images['idle3']
+
+			if(image == self.images['idle3']):
+				self.image = self.images['idle4']
+
+			if(image == self.images['idle4']):
+				self.image = self.images['idle1']

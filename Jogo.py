@@ -46,7 +46,8 @@ class Jogo():
 		#	Rael me ajudou bastante com isso
 		
 		self.tecla = self.win.checkKey()
-		
+		print self.tecla
+
 		curr_time = time.clock()
 		
 		if("Escape" not in self.tecla):
@@ -57,7 +58,7 @@ class Jogo():
 			if("Up" in self.tecla):
 				if(not self.lutador.isJumping()):
 					self.lutador.jump(curr_time)
-			if("a" in self.tecla and not self.lutador.isMoving()):
+			if("a" in self.tecla):
 				self.lutador.punch()
 		else:
 			self.stop()
@@ -67,7 +68,7 @@ class Jogo():
 		
 
 	def checkColisions(self):
-		
+
 		# Se a distancia entre o centro da linha entre os dois jogadores for menor
 		# que o centro do comeco da linha + a largura do jogador1/2 houve colisao!
 		# enquanto o pulo nao estiver pronto calculamos apenas essas distancias em X
