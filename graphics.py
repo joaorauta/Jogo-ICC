@@ -199,7 +199,9 @@ class GraphWin(tk.Canvas):
         self.mouseX = None
         self.mouseY = None
         self.bind("<Button-1>", self._onClick)
-        self.bind_all("<Key>", self._onKey)
+        self.bind_all("<KeyPress>", self._onKeyPress)
+        self.bind_all("<KeyRelease>", self._onKeyRelease)
+        #self.bind_all("<Key>", self._onKey)
         self.height = height
         self.width = width
         self.autoflush = autoflush
@@ -208,6 +210,7 @@ class GraphWin(tk.Canvas):
         self.closed = False
         master.lift()
         self.lastKey = ""
+        self.keys = []
         if autoflush: _root.update()
      
     def __checkOpen(self):
@@ -217,6 +220,11 @@ class GraphWin(tk.Canvas):
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
 
+    def _onKeyPress(self, evnt):
+        self.keys.append(evnt.keysym)
+
+    def _onKeyRelease(self, evnt):
+        self.keys.remove(evnt.keysym)
 
     def setBackground(self, color):
         """Set background color of the window"""
@@ -319,7 +327,7 @@ class GraphWin(tk.Canvas):
         self.update()
         key = self.lastKey
         self.lastKey = ""
-        return key
+        return self.keys
             
     def getHeight(self):
         """Return the height of the window"""
