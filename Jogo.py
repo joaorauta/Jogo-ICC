@@ -23,7 +23,7 @@ class Jogo():
 		self.fundo.draw(self.win)
 		
 		self.lutador = Lutador(100, 0, 90, 310, "ken")
-		self.lutador2 = Lutador(100, 0, 500, 310, "dummy")
+		self.lutador2 = Lutador(100, 0, 500, 310, "ken")
 
 		self.imgLutador1 = Image(Point(self.lutador.getX(), self.lutador.getY()), self.lutador.getImage())
 		self.imgLutador1.draw(self.win)
@@ -51,21 +51,30 @@ class Jogo():
 		curr_time = time.clock()
 		
 		if("Escape" not in self.tecla):
-			if("Right" in self.tecla):
+			
+			#========== LUTADOR 1 ==========#
+			
+			if("d" in self.tecla):
 				self.lutador.walk_right()
-			if("Left" in self.tecla):
+			if("a" in self.tecla):
 				self.lutador.walk_left()
-			if("Up" in self.tecla):
+			if("w" in self.tecla):
 				if(not self.lutador.isJumping()):
 					self.lutador.jump(curr_time)
-			if("a" in self.tecla):
-				self.lutador.punch()
+			
+			#========== LUTADOR 2 ==========#
+			
+			if("Left" in self.tecla):
+				self.lutador2.walk_left()			
+			if("Right" in self.tecla):
+				self.lutador2.walk_right()
+				
 		else:
 			self.stop()
 	
 		self.checkColisions()	
 		self.lutador.move()
-		
+		self.lutador2.move()
 
 	def checkColisions(self):
 
@@ -90,7 +99,8 @@ class Jogo():
 	def redraw(self):
 
 		self.lutador.animate(self.lutador.getImage())
-
+		self.lutador2.animate(self.lutador2.getImage())
+		
 		self.fundo.undraw()
 		self.imgLutador1.undraw()
 		self.imgLutador2.undraw()
@@ -102,6 +112,12 @@ class Jogo():
 		else:
 			self.imgLutador1 = Image(Point(self.lutador.getX(), self.lutador.getY()), self.lutador.getImage())
 		
+		if("punch2" in self.lutador2.getImage()):
+			#correcao em X porque a largura do sprite do soco eh diferente
+			self.imgLutador2 = Image(Point(self.lutador2.getX()+15, self.lutador2.getY()), self.lutador2.getImage())
+		else:
+			self.imgLutador2 = Image(Point(self.lutador2.getX(), self.lutador2.getY()), self.lutador2.getImage())
+	
 		self.imgLutador2= Image(Point(self.lutador2.getX(), self.lutador2.getY()), self.lutador2.getImage())
 		self.distance = Line(self.imgLutador1.getAnchor(), self.imgLutador2.getAnchor())
 		self.limit = self.imgLutador1.getWidth()/2
